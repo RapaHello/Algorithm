@@ -2,9 +2,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 class Solution {
-    public String[] solution(String[] players, String[] callings) {
-        String[] answer = {};
-        
+    public String[] solution(String[] players, String[] callings) {   
         Map<String, Integer> playerMap = new HashMap<>();
         if (players.length > 4) {
             for (int i = 0; i < players.length; i++) {
@@ -24,8 +22,7 @@ class Solution {
                 playerMap.put(players[idx - 1], idx - 1);
             }
         }
-        answer = players;
         
-        return answer;
+        return players;
     }
 }
