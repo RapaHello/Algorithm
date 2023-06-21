@@ -1,7 +1,7 @@
 class Solution {
     public int solution(int num) {
         int result = 0;
-        
+
         if (1 < num && num < 8000000) {
             while (true) {
                 if (num % 2 == 0) {
@@ -14,6 +14,7 @@ class Solution {
                 if (num == 1) {
                     break;
                 }
+                
                 if (result == 500) {
                     result = -1;
                     break;
