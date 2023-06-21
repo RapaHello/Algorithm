@@ -1,10 +1,9 @@
 import java.util.HashMap;
 import java.util.Map;
-import java.util.LinkedHashMap;
 
 class Solution {
     public int[] solution(String[] name, int[] yearning, String[][] photo) {
-        HashMap<String, Integer> map = new LinkedHashMap<>();
+        Map<String, Integer> map = new HashMap<>();
         for(int i = 0; i < name.length; i++){
             map.put(name[i], yearning[i]);
         }
