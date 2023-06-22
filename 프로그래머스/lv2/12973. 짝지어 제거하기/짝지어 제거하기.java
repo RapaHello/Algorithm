@@ -4,29 +4,19 @@ class Solution
 {
     public int solution(String s)
     {
-        int answer = -1;
-
-        String[] sArr = s.split("");
-        Stack<String> stack = new Stack<>();
-        for (int i = 0; i < sArr.length; i++) {
-            if (i == 0 || stack.empty()) {
-                stack.push(sArr[i]);
-                continue;
-            }
-
-            if (sArr[i].equals(stack.peek())) {
-                stack.pop();
+        Stack<Character> stack = new Stack<>();
+        for (char c : s.toCharArray()) {
+            if (stack.empty()) {
+                stack.push(c);
             } else {
-                stack.push(sArr[i]);
+                if (c == stack.peek()) {
+                    stack.pop();
+                } else {
+                    stack.push(c);
+                }
             }
         }
 
-        if (stack.empty()) {
-            answer = 1;
-        } else {
-            answer = 0;
-        }
-
-        return answer;
+        return stack.empty() ? 1 : 0;
     }
 }
