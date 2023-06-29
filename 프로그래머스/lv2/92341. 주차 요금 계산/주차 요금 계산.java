@@ -1,74 +1,33 @@
-import java.util.HashMap;
 import java.util.Map;
 import java.util.TreeMap;
 
 class Solution {
     public int[] solution(int[] fees, String[] records) {
-        Map<String, Integer> standingTime = new HashMap<>();
-        Map<String, Integer> parkingTime = new HashMap<>();
+        Map<String, Integer> parkingMap = new TreeMap<>();
 
         for (String record : records) {
-            String[] car = record.split(" ");
-            String[] time = car[0].split(":");
-
-            int minute = Integer.parseInt(time[0]) * 60 + Integer.parseInt(time[1]);
-            if (car[2].equals("IN")) {
-                standingTime.put(car[1], minute);
-            } else {
-                int standing = standingTime.get(car[1]);
-                int parking = minute - standing;
-
-                standingTime.put(car[1], -1);
-                parkingTime.compute(car[1], (key, value) -> value == null ? parking : value + parking);
-            }
+            String[] temp = record.split(" ");
+            int parking = temp[2].equals("IN") ? -1 : 1;
+            int time = timeParseInt(temp[0]) * parking;
+            parkingMap.put(temp[1], parkingMap.getOrDefault(temp[1], 0) + time);
         }
 
-        Map<String, Integer> sortedMap = new TreeMap<>(standingTime);
-
-        int cnt = 0;
-        int[] answer = new int[sortedMap.size()];
-        for (Map.Entry<String, Integer> entry : sortedMap.entrySet()) {
-            String key = entry.getKey();
-            int value = entry.getValue();
-            int time = parkingTime.get(key) == null ? 0 : parkingTime.get(key);
-
-            int day = 0, fare = 0;
-            if (value >= 0) {
-                if (time == 0) {
-                    day = (23 * 60 + 59) - value;
-                } else {
-                    day = time + (23 * 60 + 59) - value;
-                }
-
-                if (day <= fees[0]) {
-                    fare = fees[1];
-                } else {
-                    day -= fees[0];
-                    if (day % fees[2] != 0) {
-                        day += fees[2] - (day % fees[2]);
-                    }
-                    System.out.println("day = " + day);
-                    fare = fees[1] + (day / fees[2]) * fees[3];
-                }
-
-                answer[cnt] = fare;
-            } else {
-                if (time <= fees[0]) {
-                    fare = fees[1];
-                } else {
-                    day = time - fees[0];
-                    if (day % fees[2] != 0) {
-                        day += fees[2] - (day % fees[2]);
-                    }
-                    fare = fees[1] + (day / fees[2]) * fees[3];
-                }
-
-                answer[cnt] = fare;
+        int idx = 0, answer[] = new int[parkingMap.size()];
+        for (int time : parkingMap.values()) {
+            if (time < 1) time += 1439;
+            time -= fees[0];
+            int fare = fees[1];
+            if (time > 0) {
+                fare += (time % fees[2] == 0 ? time / fees[2] : time / fees[2] + 1) * fees[3];
             }
 
-            cnt++;
+            answer[idx++] = fare;
         }
-
         return answer;
+    }
+    
+    private int timeParseInt(String time) {
+        String[] temp = time.split(":");
+        return Integer.parseInt(temp[0]) * 60 + Integer.parseInt(temp[1]);
     }
 }
