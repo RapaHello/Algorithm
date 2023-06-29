@@ -9,7 +9,7 @@ class Solution {
             String[] temp = record.split(" ");
             int parking = temp[2].equals("IN") ? -1 : 1;
             int time = timeParseInt(temp[0]) * parking;
-            parkingMap.put(temp[1], parkingMap.getOrDefault(temp[1], 0) + time);
+            parkingMap.compute(temp[1], (key, value) -> value == null ? time : value + time);
         }
 
         int idx = 0, answer[] = new int[parkingMap.size()];
