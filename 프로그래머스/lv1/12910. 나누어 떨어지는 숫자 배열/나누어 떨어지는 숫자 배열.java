@@ -25,7 +25,7 @@ class Solution {
 
     /** 
         - Stream 활용식
-        int[] arr = Arrays.stream(arr).filter(i -> i % divisor == 0).sorted().toArray();
-        if (arr.length == 0) return new int[]{-1};
+        int[] answer = Arrays.stream(arr).filter(i -> i % divisor == 0).sorted().toArray();
+        if (answer.length == 0) return new int[]{-1};
     **/
 }
