@@ -24,6 +24,7 @@ class Solution {
 
 
     /** 
-        이건 주석?
+        - Stream 활용식
+        Arrays.stream(arr).filter(i -> i % divisor == 0).sorted().toArray();
     **/
 }
